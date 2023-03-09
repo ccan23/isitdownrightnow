@@ -13,11 +13,11 @@ class IsItDownRightNow:
     Usage:
 
         isdown = IsItDownRightNow('google.com')
-        isdown.info
+        isdown.status
 
     Public Methods:
 
-        info -> dict
+        status -> dict
             Returns a dictionary containing the status of the website.
 
     Private Methods:
@@ -172,7 +172,7 @@ class IsItDownRightNow:
         }
     
     @property
-    def info(self) -> dict:
+    def status(self) -> dict:
         """
         Check if the given domain is up or down and return relevant information.
 
