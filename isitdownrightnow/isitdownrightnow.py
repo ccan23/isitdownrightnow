@@ -7,20 +7,71 @@ from lxml import html
 
 
 class IsItDownRightNow:
-    
+    """
+    A class for checking whether a website is down or not.
+
+    Usage:
+
+        isdown = IsItDownRightNow('google.com')
+        isdown.info
+
+    Public Methods:
+
+        info -> dict
+            Returns a dictionary containing the status of the website.
+
+    Private Methods:
+
+        __validate_domain() -> bool:
+            Returns the valid domain to check on isitdownrightnow.com
+
+        __get_response() -> dict:
+            Retrieves the HTML response from isitdownrightnow.com
+
+        __scrape(html_text: str) -> dict:
+            Scrapes the response from the html text and returns a dictionary.
+    """
+
     def __init__(self, domain: str):
+        """
+        Creates a new instance of IsItDownRightNow
+
+        Args:
+
+            domain : str
+                The domain name of the site to be checked
+
+        Private Attributes:
+
+            __response : dict
+                Return __get_response()
+        """
 
         self.__domain = domain
         self.__response = self.__get_response()
 
     def __repr__(self) -> str:
-        
+        """
+        Return a string representation of the IsItDownRightNow object.
+
+        Returns:
+            str: 
+                A string that contains the constructor call for the IsItDownRightNow object.
+        """
+
         domain = self.__valid_domain
         return f"IsItDownRightNow('{domain}')" if domain else 'IsItDownRightNow()'
     
     @property
     def __valid_domain(self) -> str:
-        
+        """
+        Returns the valid domain to check on isitdownrightnow.com
+
+        Returns:
+            str:
+                The domain name extracted from the URL, if valid.
+        """
+
         if validators.domain(self.__domain):
             return self.__domain
         
@@ -31,6 +82,13 @@ class IsItDownRightNow:
             return ''
         
     def __get_response(self) -> dict:
+        """
+        Sends a request to isitdownrightnow.com and returns the response.
+
+        Returns:
+            dict:
+                A dictionary with information about the website's status.
+        """
 
         # Valid domain to send isitdownrightnow.com
         domain = self.__valid_domain
@@ -73,6 +131,20 @@ class IsItDownRightNow:
             }
     
     def __scrape(self, html_text: str) -> dict:
+        """
+        Parses the HTML text returned by isitdownrightnow.com and returns the website's status.
+
+        Args:
+            html_text : str
+                The HTML text returned by isitdownrightnow.com
+
+        Returns:
+            dict:
+                A dictionary containing the following keys:
+                'up' (bool), 'website_name' (str), 'url_checked' (str),
+                'response_time' (str), 'last_down' (str or None), 'down_for' (str or None),
+                'status' (str), 'message' (str)
+        """
 
         # Use element tree to find elements from string
         tree = html.fromstring(html_text)
@@ -101,6 +173,20 @@ class IsItDownRightNow:
     
     @property
     def info(self) -> dict:
+        """
+        Check if the given domain is up or down and return relevant information.
+
+        Returns:
+            dict:
+                - 'up' (bool)          : True if the domain is up, False otherwise.
+                - 'website_name' (str) : The name of the website.
+                - 'url_checked' (str)  : The URL that was checked.
+                - 'response_time' (str): The response time of the website.
+                - 'last_down' (str)    : The last time the website was down, it is None if website is down
+                - 'down_for' (str)     : The duration of time the website has been down, it is None if website is up
+                - 'status' (str)       : The status of the website, either "UP" or "DOWN"
+                - 'message' (str)      : A message about the result of the check.
+        """
 
         if self.__response['status']:
             return self.__scrape(self.__response['html_text'])
