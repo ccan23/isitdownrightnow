@@ -32,15 +32,25 @@ class IsItDownRightNow:
         
     def __get_response(self) -> dict:
 
-        domain = self.__valid_domain        
+        # Valid domain to send isitdownrightnow.com
+        domain = self.__valid_domain
+        
+        # URL to send request to isitdownrightnow.com
         url = f'https://www.isitdownrightnow.com/check.php?domain={domain}'
         
+        # Check if the domain is valid or empty string
         if domain:
+
+            # Get the response from istidownrightnow.com
             response = requests.get(url)
-            
+
+            # Check if isitdownrightnow.com is reachable
             if response.ok:
+
+                # Wrap response text with <html> and <body> tags
                 html_text = f'<html><body>{response.text}</body></html>'
 
+                # Return response and wrapped html text
                 return {
                     'status': response.ok,
                     'status_code': response.status_code,
@@ -48,6 +58,7 @@ class IsItDownRightNow:
                 }
 
             else:
+                # Return an error message if isitdownrightnow.com is not reachable
                 return {
                     'status': response.ok,
                     'status_code': response.status_code,
@@ -55,13 +66,18 @@ class IsItDownRightNow:
                 }
         
         else:
+            # Return an error message if the domain is invalid
             return {
                 'status': False,
                 'message': f'{self.__domain} is not a valid domain. Usage examples: google.com, speedtest.net, etc..'
             }
     
     def __scrape(self, html_text: str) -> dict:
+
+        # Use element tree to find elements from string
         tree = html.fromstring(html_text)
+
+        # Lambda function to parse text from HTML element using xpath locations
         text_element = lambda index, tag: tree.xpath(f'/html/body/div[{index}]/{tag}')[0].text
 
         website_name  = text_element(1, 'span')
