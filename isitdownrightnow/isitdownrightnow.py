@@ -32,6 +32,8 @@ class IsItDownRightNow:
             Scrapes the response from the html text and returns a dictionary.
     """
 
+    __version__ = '0.0.1'
+
     def __init__(self, domain: str):
         """
         Creates a new instance of IsItDownRightNow
