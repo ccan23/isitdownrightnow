@@ -15,7 +15,7 @@ LONG_DESCRIPTION = "An accessible worldwide website availability checker library
 
 # Setting up
 setup(
-    name='osmlf',
+    name='isitdownrightnow',
     version=VERSION,
     author='ccan23',
     author_email='dev.ccanb@protonmail.com',
