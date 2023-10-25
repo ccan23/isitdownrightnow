@@ -2,9 +2,9 @@
 
 This is a simple Python wrapper for the IsItDownRightNow API, allowing users to check in real-time whether a specific website is currently accessible worldwide.
 
-**Install the required packages:**
-```sh
-pip install -r requirements.txt
+## Installation
+```bash
+pip install isitdownrightnow
 ```
 
 ## Usage
